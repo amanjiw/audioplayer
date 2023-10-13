@@ -1,6 +1,7 @@
 import React from "react";
 
 import PlayBtnIcon from "../assets/icons/ic_play.svg";
+import PauseBtnIcon from "../assets/icons/ic_pause.svg";
 import NextBtnIcon from "../assets/icons/ic_next.svg";
 import PrevBtnIcon from "../assets/icons/ic_prev.svg";
 import ShuffleBtnIcon from "../assets/icons/ic_shuffle.svg";
@@ -8,9 +9,10 @@ import RepeatBtnIcon from "../assets/icons/ic_repeat.svg";
 
 type ControlsProps = {
 	onPlayClick: () => void;
+	isPlaying: boolean;
 };
 
-const Controls = ({ onPlayClick }: ControlsProps) => {
+const Controls = ({ onPlayClick, isPlaying }: ControlsProps) => {
 	const onCLick = () => {}; // Not Needed Remove Later
 
 	return (
@@ -19,7 +21,7 @@ const Controls = ({ onPlayClick }: ControlsProps) => {
 			<ImageButton src={PrevBtnIcon} onClick={onCLick} />
 			<ImageButton
 				className=" mr-2 ml-2 "
-				src={PlayBtnIcon}
+				src={isPlaying ? PauseBtnIcon : PlayBtnIcon}
 				onClick={onPlayClick}
 			/>
 			<ImageButton src={NextBtnIcon} onClick={onCLick} />
