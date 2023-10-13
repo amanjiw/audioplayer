@@ -6,7 +6,11 @@ import PrevBtnIcon from "../assets/icons/ic_prev.svg";
 import ShuffleBtnIcon from "../assets/icons/ic_shuffle.svg";
 import RepeatBtnIcon from "../assets/icons/ic_repeat.svg";
 
-const Controls = () => {
+type ControlsProps = {
+	onPlayClick: () => void;
+};
+
+const Controls = ({ onPlayClick }: ControlsProps) => {
 	const onCLick = () => {}; // Not Needed Remove Later
 
 	return (
@@ -16,7 +20,7 @@ const Controls = () => {
 			<ImageButton
 				className=" mr-2 ml-2 "
 				src={PlayBtnIcon}
-				onClick={onCLick}
+				onClick={onPlayClick}
 			/>
 			<ImageButton src={NextBtnIcon} onClick={onCLick} />
 			<ImageButton src={RepeatBtnIcon} onClick={onCLick} />
