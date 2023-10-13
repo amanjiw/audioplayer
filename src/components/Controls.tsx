@@ -10,7 +10,7 @@ const Controls = () => {
 	const onCLick = () => {}; // Not Needed Remove Later
 
 	return (
-		<div className="flex flex-row mt-4  ">
+		<div className="flex flex-row mt-4 ">
 			<ImageButton src={ShuffleBtnIcon} onClick={onCLick} />
 			<ImageButton src={PrevBtnIcon} onClick={onCLick} />
 			<ImageButton
