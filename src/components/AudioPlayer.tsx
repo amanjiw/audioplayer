@@ -1,24 +1,28 @@
-import React, { useRef, useState } from "react";
+import React from "react";
 import Controls from "./Controls";
 import Progressbar from "./Progressbar";
 import SongInfo from "./SongInfo";
-import { createAudioPlayer } from "../audioplayer/Audioplayer";
+
+import useAudioPlayer from "../audioplayer/hooks";
 import playlist from "../playlist/playlist";
-import { PlayerState, intialPlayerState } from "../audioplayer/types";
 
 const AudioPlayer = () => {
-	const [playerState, setPlayerState] =
-		useState<PlayerState>(intialPlayerState);
-	const togglePlayPauseRef = useRef(
-		createAudioPlayer(playlist, setPlayerState)
-	);
+	const {
+		cleanup,
+		playNextTrack,
+		playPreviousTrack,
+		playerState,
+		togglePlayPause,
+	} = useAudioPlayer(playlist);
 
 	return (
 		<div className="flex flex-col items-center ">
 			<SongInfo />
 			<Progressbar />
 			<Controls
-				onPlayClick={togglePlayPauseRef.current}
+				onPlayClick={togglePlayPause}
+				onNextClick={playNextTrack}
+				onPrevClick={playPreviousTrack}
 				isPlaying={playerState.playbackState === "PLAYING"}
 			/>
 		</div>

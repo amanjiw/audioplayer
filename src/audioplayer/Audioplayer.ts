@@ -1,6 +1,9 @@
-import { PlaybackState, PlayerState, Playlist } from "./types";
+import { Controls, PlaybackState, PlayerState, Playlist } from "./types";
 
-export const createAudioPlayer = (
+export const createAudioPlayer: (
+	playlist: Playlist,
+	onStateChange: (state: PlayerState) => void
+) => Controls = (
 	playlist: Playlist,
 	onStateChange: (state: PlayerState) => void
 ) => {
@@ -25,8 +28,13 @@ export const createAudioPlayer = (
 
 	/* ===  Event Listener  === */ //
 	const setupAudioElementListeners = () => {
-		audioElement.addEventListener("playing", emitCurrentPlayerState);
+		audioElement.addEventListener("play", emitCurrentPlayerState);
 		audioElement.addEventListener("pause", emitCurrentPlayerState);
+	};
+
+	const removeAudioElement = () => {
+		audioElement.removeEventListener("play", emitCurrentPlayerState);
+		audioElement.removeEventListener("pause", emitCurrentPlayerState);
 	};
 
 	/* ===  Track handling  === */ //
@@ -36,11 +44,16 @@ export const createAudioPlayer = (
 		currentTrackIndex = index;
 	};
 
-	/* ===  Init  === */
+	/* ===  Init and Cleanup  === */
 	// it initializ audio player
 	const init = () => {
 		setupAudioElementListeners();
 		loadTrack(0);
+	};
+
+	const cleanup = () => {
+		removeAudioElement();
+		audioElement.pause();
 	};
 
 	/* ===  Controls  === */
@@ -51,7 +64,16 @@ export const createAudioPlayer = (
 		} else audioElement.pause();
 	};
 
+	const playNextTrack = () => {
+		const nextTrackIndex = currentTrackIndex + 1;
+		loadTrack(nextTrackIndex);
+	};
+	const playPreviousTrack = () => {
+		const previousTrackIndex = currentTrackIndex - 1;
+		loadTrack(previousTrackIndex);
+	};
+
 	init();
 
-	return togglePlayPause;
+	return { togglePlayPause, playNextTrack, playPreviousTrack, cleanup };
 };
