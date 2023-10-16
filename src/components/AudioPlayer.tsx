@@ -13,17 +13,22 @@ const AudioPlayer = () => {
 		playPreviousTrack,
 		playerState,
 		togglePlayPause,
+		toggleRepeat,
 	} = useAudioPlayer(playlist);
+
+	const { playbackState, repeat } = playerState;
 
 	return (
 		<div className="flex flex-col items-center ">
 			<SongInfo />
 			<Progressbar />
 			<Controls
-				onPlayClick={togglePlayPause}
-				onNextClick={playNextTrack}
+				isPlaying={playbackState === "PLAYING"}
 				onPrevClick={playPreviousTrack}
-				isPlaying={playerState.playbackState === "PLAYING"}
+				onPlayClick={togglePlayPause}
+				onRepeatClick={toggleRepeat}
+				onNextClick={playNextTrack}
+				repeat={repeat}
 			/>
 		</div>
 	);

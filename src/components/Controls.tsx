@@ -6,11 +6,14 @@ import NextBtnIcon from "../assets/icons/ic_next.svg";
 import PrevBtnIcon from "../assets/icons/ic_prev.svg";
 import ShuffleBtnIcon from "../assets/icons/ic_shuffle.svg";
 import RepeatBtnIcon from "../assets/icons/ic_repeat.svg";
+import RepeatBtnDisabledIcon from "../assets/icons/ic_repeat_disabled.svg";
 
 type ControlsProps = {
 	onPlayClick: () => void;
 	onPrevClick: () => void;
 	onNextClick: () => void;
+	onRepeatClick: () => void;
+	repeat: boolean;
 	isPlaying: boolean;
 };
 
@@ -19,6 +22,8 @@ const Controls = ({
 	isPlaying,
 	onNextClick,
 	onPrevClick,
+	onRepeatClick,
+	repeat,
 }: ControlsProps) => {
 	const onCLick = () => {}; // Not Needed Remove Later
 
@@ -32,7 +37,10 @@ const Controls = ({
 				onClick={onPlayClick}
 			/>
 			<ImageButton src={NextBtnIcon} onClick={onNextClick} />
-			<ImageButton src={RepeatBtnIcon} onClick={onCLick} />
+			<ImageButton
+				src={repeat ? RepeatBtnIcon : RepeatBtnDisabledIcon}
+				onClick={onRepeatClick}
+			/>
 		</div>
 	);
 };

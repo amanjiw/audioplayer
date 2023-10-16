@@ -8,17 +8,19 @@ export const createAudioPlayer: (
 	onStateChange: (state: PlayerState) => void
 ) => {
 	let currentTrackIndex = 0;
+	let repeat = false;
 	const audioElement: HTMLAudioElement = new Audio();
 
 	/* ===  Player state  === */ //
 	const emitCurrentPlayerState: () => void = () => {
 		const state = computeCurrentPlayerState();
-
 		onStateChange(state);
 	};
+
 	const computeCurrentPlayerState: () => PlayerState = () => {
 		return {
 			playbackState: getPlayebackState(),
+			repeat,
 		};
 	};
 
@@ -27,14 +29,22 @@ export const createAudioPlayer: (
 	};
 
 	/* ===  Event Listener  === */ //
+
+	const onCurrentTrackEnded = () => {
+		if (repeat) replayCurrentTrack();
+		else playNextTrack();
+	};
+
 	const setupAudioElementListeners = () => {
-		audioElement.addEventListener("play", emitCurrentPlayerState);
+		audioElement.addEventListener("playing", emitCurrentPlayerState);
 		audioElement.addEventListener("pause", emitCurrentPlayerState);
+		audioElement.addEventListener("ended", onCurrentTrackEnded);
 	};
 
 	const removeAudioElement = () => {
-		audioElement.removeEventListener("play", emitCurrentPlayerState);
+		audioElement.removeEventListener("playing", emitCurrentPlayerState);
 		audioElement.removeEventListener("pause", emitCurrentPlayerState);
+		audioElement.addEventListener("ended", onCurrentTrackEnded);
 	};
 
 	/* ===  Track handling  === */ //
@@ -42,6 +52,11 @@ export const createAudioPlayer: (
 		audioElement.src = playlist[index].audioSrc;
 		audioElement.load();
 		currentTrackIndex = index;
+	};
+
+	const replayCurrentTrack = () => {
+		audioElement.currentTime = 0;
+		audioElement.play();
 	};
 
 	/* ===  Init and Cleanup  === */
@@ -58,6 +73,12 @@ export const createAudioPlayer: (
 
 	/* ===  Controls  === */
 	//
+
+	const toggleRepeat = () => {
+		repeat = !repeat;
+		emitCurrentPlayerState();
+	};
+
 	const togglePlayPause = () => {
 		if (audioElement.paused) {
 			audioElement.play();
@@ -67,13 +88,21 @@ export const createAudioPlayer: (
 	const playNextTrack = () => {
 		const nextTrackIndex = currentTrackIndex + 1;
 		loadTrack(nextTrackIndex);
+		audioElement.play();
 	};
 	const playPreviousTrack = () => {
 		const previousTrackIndex = currentTrackIndex - 1;
 		loadTrack(previousTrackIndex);
+		audioElement.play();
 	};
 
 	init();
 
-	return { togglePlayPause, playNextTrack, playPreviousTrack, cleanup };
+	return {
+		togglePlayPause,
+		playNextTrack,
+		playPreviousTrack,
+		cleanup,
+		toggleRepeat,
+	};
 };

@@ -26,6 +26,7 @@ const useAudioPlayer: (playlist: Playlist) => Audioplayer = (
 	const playNextTrack = () => playerRef?.current?.playNextTrack();
 	const playPreviousTrack = () => playerRef?.current?.playPreviousTrack();
 	const cleanup = () => playerRef?.current?.cleanup();
+	const toggleRepeat = () => playerRef?.current?.toggleRepeat();
 
 	return {
 		playerState,
@@ -33,6 +34,7 @@ const useAudioPlayer: (playlist: Playlist) => Audioplayer = (
 		playNextTrack,
 		playPreviousTrack,
 		cleanup,
+		toggleRepeat,
 	};
 };
 

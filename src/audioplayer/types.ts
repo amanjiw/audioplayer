@@ -19,12 +19,14 @@ export type TrackMetadata = {
 
 export type PlayerState = {
 	playbackState: PlaybackState;
+	repeat: boolean;
 };
 
 export type PlaybackState = "PLAYING" | "PAUSED";
 
 export const intialPlayerState: PlayerState = {
 	playbackState: "PAUSED",
+	repeat: false,
 };
 
 /*  === Controls === */
@@ -35,4 +37,5 @@ export type Controls = {
 	playNextTrack: () => void;
 	playPreviousTrack: () => void;
 	cleanup: () => void;
+	toggleRepeat: () => void;
 };
