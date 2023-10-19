@@ -9,6 +9,7 @@ export const createAudioPlayer: (
 ) => {
 	let currentTrackIndex = 0;
 	let repeat = false;
+	let shuffle = false;
 	const audioElement: HTMLAudioElement = new Audio();
 
 	/* ===  Player state  === */ //
@@ -21,6 +22,7 @@ export const createAudioPlayer: (
 		return {
 			playbackState: getPlayebackState(),
 			repeat,
+			shuffle,
 		};
 	};
 
@@ -59,6 +61,23 @@ export const createAudioPlayer: (
 		audioElement.play();
 	};
 
+	const computeNextTrackIndex = (): number => {
+		return shuffle
+			? computeRandomTrackIndex()
+			: computeSubsequentTrackIndex();
+	};
+
+	const computeSubsequentTrackIndex = (): number => {
+		return (currentTrackIndex + 1) % playlist.length;
+	};
+
+	const computeRandomTrackIndex = (): number => {
+		if (playlist.length === 1) return 0;
+		const index = Math.floor(Math.random() * (playlist.length - 1));
+
+		return index < currentTrackIndex ? index : index + 1;
+	};
+
 	/* ===  Init and Cleanup  === */
 	// it initializ audio player
 	const init = () => {
@@ -74,6 +93,11 @@ export const createAudioPlayer: (
 	/* ===  Controls  === */
 	//
 
+	const toggleShuffle = () => {
+		shuffle = !shuffle;
+		emitCurrentPlayerState();
+	};
+
 	const toggleRepeat = () => {
 		repeat = !repeat;
 		emitCurrentPlayerState();
@@ -86,7 +110,7 @@ export const createAudioPlayer: (
 	};
 
 	const playNextTrack = () => {
-		const nextTrackIndex = currentTrackIndex + 1;
+		const nextTrackIndex = computeNextTrackIndex();
 		loadTrack(nextTrackIndex);
 		audioElement.play();
 	};
@@ -104,5 +128,6 @@ export const createAudioPlayer: (
 		playPreviousTrack,
 		cleanup,
 		toggleRepeat,
+		toggleShuffle,
 	};
 };

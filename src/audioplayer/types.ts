@@ -20,6 +20,7 @@ export type TrackMetadata = {
 export type PlayerState = {
 	playbackState: PlaybackState;
 	repeat: boolean;
+	shuffle: boolean;
 };
 
 export type PlaybackState = "PLAYING" | "PAUSED";
@@ -27,6 +28,7 @@ export type PlaybackState = "PLAYING" | "PAUSED";
 export const intialPlayerState: PlayerState = {
 	playbackState: "PAUSED",
 	repeat: false,
+	shuffle: false,
 };
 
 /*  === Controls === */
@@ -38,4 +40,5 @@ export type Controls = {
 	playPreviousTrack: () => void;
 	cleanup: () => void;
 	toggleRepeat: () => void;
+	toggleShuffle: () => void;
 };

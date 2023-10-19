@@ -14,9 +14,10 @@ const AudioPlayer = () => {
 		playerState,
 		togglePlayPause,
 		toggleRepeat,
+		toggleShuffle,
 	} = useAudioPlayer(playlist);
 
-	const { playbackState, repeat } = playerState;
+	const { playbackState, repeat, shuffle } = playerState;
 
 	return (
 		<div className="flex flex-col items-center ">
@@ -28,7 +29,9 @@ const AudioPlayer = () => {
 				onPlayClick={togglePlayPause}
 				onRepeatClick={toggleRepeat}
 				onNextClick={playNextTrack}
+				onShuffleClick={toggleShuffle}
 				repeat={repeat}
+				shuffle={shuffle}
 			/>
 		</div>
 	);

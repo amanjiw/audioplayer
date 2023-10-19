@@ -7,14 +7,17 @@ import PrevBtnIcon from "../assets/icons/ic_prev.svg";
 import ShuffleBtnIcon from "../assets/icons/ic_shuffle.svg";
 import RepeatBtnIcon from "../assets/icons/ic_repeat.svg";
 import RepeatBtnDisabledIcon from "../assets/icons/ic_repeat_disabled.svg";
+import ShuffleBtnDisabledIcon from "../assets/icons/ic_shuffle_disabled.svg";
 
 type ControlsProps = {
 	onPlayClick: () => void;
 	onPrevClick: () => void;
 	onNextClick: () => void;
 	onRepeatClick: () => void;
+	onShuffleClick: () => void;
 	repeat: boolean;
 	isPlaying: boolean;
+	shuffle: boolean;
 };
 
 const Controls = ({
@@ -23,13 +26,17 @@ const Controls = ({
 	onNextClick,
 	onPrevClick,
 	onRepeatClick,
+	onShuffleClick,
+	shuffle,
 	repeat,
 }: ControlsProps) => {
-	const onCLick = () => {}; // Not Needed Remove Later
 
 	return (
 		<div className="flex flex-row mt-4 ">
-			<ImageButton src={ShuffleBtnIcon} onClick={onCLick} />
+			<ImageButton
+				src={shuffle ? ShuffleBtnIcon : ShuffleBtnDisabledIcon}
+				onClick={onShuffleClick}
+			/>
 			<ImageButton src={PrevBtnIcon} onClick={onPrevClick} />
 			<ImageButton
 				className=" mr-2 ml-2 "
