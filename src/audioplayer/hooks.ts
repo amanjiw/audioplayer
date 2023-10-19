@@ -22,11 +22,13 @@ const useAudioPlayer: (playlist: Playlist) => Audioplayer = (
 		};
 	}, [playlist]);
 
-	const togglePlayPause = () => playerRef?.current?.togglePlayPause();
+    
 	const playNextTrack = () => playerRef?.current?.playNextTrack();
 	const playPreviousTrack = () => playerRef?.current?.playPreviousTrack();
 	const cleanup = () => playerRef?.current?.cleanup();
+	const togglePlayPause = () => playerRef?.current?.togglePlayPause();
 	const toggleRepeat = () => playerRef?.current?.toggleRepeat();
+	const toggleShuffle = () => playerRef.current?.toggleShuffle();
 
 	return {
 		playerState,
@@ -35,6 +37,7 @@ const useAudioPlayer: (playlist: Playlist) => Audioplayer = (
 		playPreviousTrack,
 		cleanup,
 		toggleRepeat,
+		toggleShuffle,
 	};
 };
 
